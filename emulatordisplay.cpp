@@ -6,6 +6,7 @@ EmulatorDisplay::EmulatorDisplay(QWidget *parent) :
     ui(new Ui::EmulatorDisplay)
 {
     ui->setupUi(this);
+    this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
 }
 
 EmulatorDisplay::~EmulatorDisplay()
