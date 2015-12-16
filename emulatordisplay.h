@@ -15,6 +15,9 @@ public:
     explicit EmulatorDisplay(QWidget *parent = 0);
     ~EmulatorDisplay();
 
+private slots:
+    void on_resetButton_clicked();
+
 private:
     Ui::EmulatorDisplay *ui;
 };

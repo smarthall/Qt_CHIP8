@@ -20,3 +20,5 @@ HEADERS  += emulatordisplay.h \
     emulatorscreenwidget.h
 
 FORMS    += emulatordisplay.ui
+
+RESOURCES +=

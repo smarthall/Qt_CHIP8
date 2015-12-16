@@ -5,25 +5,30 @@
 #include <QPainter>
 
 EmulatorScreenWidget::EmulatorScreenWidget(QWidget *parent) : QWidget(parent) {
-
+    qDebug() << "Widget created";
 }
 
 void EmulatorScreenWidget::paintEvent(QPaintEvent*) {
-    QRgb* pixels = new QRgb[width()*height()];
     QTime time;
     time.start();
     QPainter painter(this);
-    QImage image((uchar*)pixels, width(), height(), QImage::Format_ARGB32);
-    for (int x = 0; x < width(); ++x) {
-        for (int y = 0; y < height(); ++y) {
-            pixels[x + y * height()] = static_cast<QRgb>(x+y);
+    QRgb black = qRgb(0, 0, 0);
+
+    QRgb* pixels = new QRgb[this->display_size_x * this->display_size_y];
+    QImage image((uchar*)pixels, this->display_size_x, this->display_size_y, QImage::Format_ARGB32);
+
+    for (int x = 0; x < this->display_size_x; ++x) {
+        for (int y = 0; y < this->display_size_y; ++y) {
+            pixels[x + y * this->display_size_x] = black;
         }
     }
     painter.drawImage(0, 0, image);
-    qDebug() << "drawImage time:" << time.elapsed();
-    close();
+    qDebug() << "Drew frame in :" << time.elapsed() << "ms.";
     delete[] pixels;
 }
 
 void EmulatorScreenWidget::updateDisplay(uint8_t *display) {
+    memcpy(this->display, display, sizeof(this->display));
+
+    this->repaint();
 }
