@@ -14,11 +14,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         emulatordisplay.cpp \
-    emulatorscreenwidget.cpp
+    emulatorscreenwidget.cpp \
+    chip8core.cpp
 
 HEADERS  += emulatordisplay.h \
-    emulatorscreenwidget.h
+    emulatorscreenwidget.h \
+    chip8core.h
 
 FORMS    += emulatordisplay.ui
 
 RESOURCES +=
+
+DISTFILES += \
+    Chip8.cs
