@@ -18,6 +18,7 @@ private:
     static const int display_size_x = 64;
     static const int display_size_y = 32;
     uint8_t display[display_size_x * display_size_y];
+    unsigned int getChip8Pixel(unsigned int x, unsigned int y);
 
 signals:
 

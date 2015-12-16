@@ -18,5 +18,10 @@ EmulatorDisplay::~EmulatorDisplay()
 
 void EmulatorDisplay::on_resetButton_clicked()
 {
-    qDebug() << "Click!";
+    qDebug() << "Reset CPU!";
+}
+
+void EmulatorDisplay::on_loadButton_clicked()
+{
+    qDebug() << "Load Program!";
 }
