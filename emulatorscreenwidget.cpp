@@ -1,6 +1,6 @@
 #include "emulatorscreenwidget.h"
 
-#include <Qtime>
+#include <QTime>
 #include <QDebug>
 #include <QPainter>
 
