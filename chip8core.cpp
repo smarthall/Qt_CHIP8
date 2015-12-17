@@ -1,5 +1,6 @@
 #include "chip8core.h"
 #include "string.h"
+#include <QFile>
 
 Chip8Core::Chip8Core()
 {
@@ -57,6 +58,12 @@ void Chip8Core::clearScreen() {
 }
 
 int Chip8Core::load(char *filename) {
+    QFile file(filename);
+
+    // Open the file as binary and read only
+    if (!file.open(QIODevice::ReadOnly))
+        return 0;
+
     // TODO
     return 1;
 }

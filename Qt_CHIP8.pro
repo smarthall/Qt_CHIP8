@@ -23,7 +23,8 @@ HEADERS  += emulatordisplay.h \
 
 FORMS    += emulatordisplay.ui
 
-RESOURCES +=
+RESOURCES += \
+    resources.qrc
 
 DISTFILES += \
     Chip8.cs

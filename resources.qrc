@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ROMS/15PUZZLE</file>
+        <file>ROMS/BLINKY</file>
+        <file>ROMS/BLITZ</file>
+        <file>ROMS/BRIX</file>
+        <file>ROMS/CONNECT4</file>
+        <file>ROMS/GUESS</file>
+        <file>ROMS/HIDDEN</file>
+        <file>ROMS/INVADERS</file>
+        <file>ROMS/KALEID</file>
+        <file>ROMS/MAZE</file>
+        <file>ROMS/MERLIN</file>
+        <file>ROMS/MISSILE</file>
+        <file>ROMS/PONG</file>
+        <file>ROMS/PONG2</file>
+        <file>ROMS/PUZZLE</file>
+        <file>ROMS/SYZYGY</file>
+        <file>ROMS/TANK</file>
+        <file>ROMS/TETRIS</file>
+        <file>ROMS/TICTAC</file>
+        <file>ROMS/UFO</file>
+        <file>ROMS/VBRIX</file>
+        <file>ROMS/VERS</file>
+        <file>ROMS/WIPEOFF</file>
+    </qresource>
+</RCC>
