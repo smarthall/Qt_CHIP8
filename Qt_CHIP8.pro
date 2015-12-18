@@ -26,5 +26,4 @@ FORMS    += emulatordisplay.ui
 RESOURCES += \
     resources.qrc
 
-DISTFILES += \
-    Chip8.cs
+DISTFILES +=

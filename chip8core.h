@@ -8,16 +8,23 @@ class Chip8Core
 public:
     Chip8Core();
     void reset();
-    int load(char *filename);
-private:
-    static const uint16_t LOAD_ADDR = 0x200;
-    static const uint16_t CARRY_REGISTER = 0xF;
-    static const uint16_t MEMORY_SIZE = 4096;
+    bool cycle();
+    bool load(uint8_t *program, uint16_t size);
+    void keyDown(uint8_t key_id);
+    void keyUp(uint8_t key_id);
+    void copyDisplay(uint8_t *dest);
 
+    // Public Constants
+    static const uint16_t LOAD_ADDR = 0x200;
+    static const uint16_t MEMORY_SIZE = 4096;
+    static const uint16_t MAX_PROGRAM_SIZE = MEMORY_SIZE - LOAD_ADDR;
+
+private:
     // Memory
     uint8_t memory[MEMORY_SIZE];
 
     // Registers
+    static const uint16_t CARRY_REGISTER = 0xF;
     static const uint8_t REGISTER_COUNT = 16;
     uint8_t V[REGISTER_COUNT];
 
