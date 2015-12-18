@@ -225,7 +225,7 @@ bool Chip8Core::cycle() {
             } else {
                 V[CARRY_REGISTER] = 0;
             }
-            V[x] = res % 0xFF;
+            V[x] = V[x] + V[y];
             pc += 2;
             break;
 
