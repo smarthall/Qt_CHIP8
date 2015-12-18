@@ -50,6 +50,9 @@ void Chip8Core::reset() {
     // Load Fonts
     memcpy(memory, fontset, sizeof(fontset));
 
+    // Unpress all keys
+    memset(key, 0, sizeof(key));
+
     // Reset timers
     delay_timer = 0;
     sound_timer = 0;
@@ -247,21 +250,19 @@ bool Chip8Core::cycle() {
 
             // 8XY7: Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
         case 0x7:
-            res = V[y] - V[x];
-            if (res < 0) {
-                V[x] = res + 0xFF;
+            if (V[y] < V[x]) {
                 V[CARRY_REGISTER] = 0;
             } else {
-                V[x] = res;
                 V[CARRY_REGISTER] = 1;
             }
+            V[x] = V[y] - V[x];
             pc += 2;
             break;
 
             // 8XYE: Shifts VX left by one. VF is set to the value of the most significant bit of VX before the shift.
         case 0xE:
-            V[CARRY_REGISTER] = (V[x] & 0x80) >> 8;
-            V[x] = V[x] >> 1;
+            V[CARRY_REGISTER] = (V[x] & 0x80) >> 7;
+            V[x] = V[x] << 1;
             pc += 2;
             break;
 
@@ -388,7 +389,7 @@ bool Chip8Core::cycle() {
         case 0x0A:
             pressed = false;
 
-            for (uint8_t i = 0; i < 0xF; i++) {
+            for (uint8_t i = 0; i < KEY_COUNT; i++) {
                 if (key[i] != 0) {
                     pressed = true;
                     V[x] = i;
