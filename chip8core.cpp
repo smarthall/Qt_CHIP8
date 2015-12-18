@@ -101,6 +101,7 @@ bool Chip8Core::cycle() {
         // 00E0: Clears the screen.
         case 0x00E0:
             clearScreen();
+            pc += 2;
             break;
 
             // 00EE: Returns from a subroutine.
@@ -173,7 +174,7 @@ bool Chip8Core::cycle() {
         res = V[x] + n;
 
         if (res > 0xFF) {
-            V[x] = res - 0xFF;
+            V[x] = res % 0xFF;
             V[CARRY_REGISTER] = 1;
         } else {
             V[x] = res;
@@ -222,26 +223,25 @@ bool Chip8Core::cycle() {
             } else {
                 V[CARRY_REGISTER] = 0;
             }
-            V[x] = res;
+            V[x] = res % 0xFF;
             pc += 2;
             break;
 
             // 8XY5: VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
         case 0x5:
-            res = V[x] - V[y];
-            if (res < 0xFF) {
+            if (V[x] < V[y]) {
                 V[CARRY_REGISTER] = 0;
             } else {
                 V[CARRY_REGISTER] = 1;
             }
-            V[x] = res;
+            V[x] = V[x] - V[y];
             pc += 2;
             break;
 
             // 8XY6: Shifts VX right by one. VF is set to the value of the least significant bit of VX before the shift.
         case 0x6:
             V[CARRY_REGISTER] = V[x] & 0x01;
-            V[x] = V[x] << 1;
+            V[x] = V[x] >> 1;
             pc += 2;
             break;
 
@@ -316,15 +316,23 @@ bool Chip8Core::cycle() {
         uint8_t pixel;
 
         V[CARRY_REGISTER] = 0;
+        // For the number of lines
         for (int yline = 0; yline < n; yline++)
         {
+            // Read the pixel data
             pixel = memory[I + yline];
             for(int xline = 0; xline < 8; xline++)
             {
+                // Move 0b1000 0000 across for each column
                 if((pixel & (0x80 >> xline)) != 0)
                 {
-                    if(gfx[(V[x] + xline + ((V[y] + yline) * 64))] == 1) V[CARRY_REGISTER] = 1;
-                    gfx[V[x] + xline + ((V[y] + yline) * 64)] ^= 1;
+                    uint16_t index = (V[x] + xline + ((V[y] + yline) * SCREEN_WIDTH));
+                    if(gfx[index] == 1) {
+                        V[CARRY_REGISTER] = 1;
+                        gfx[index] = 0;
+                    } else {
+                        gfx[index] = 1;
+                    }
                 }
             }
         }
