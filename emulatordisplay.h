@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "chip8core.h"
+
 namespace Ui {
 class EmulatorDisplay;
 }
@@ -16,12 +18,10 @@ public:
     ~EmulatorDisplay();
 
 private slots:
-    void on_resetButton_clicked();
-
-    void on_loadButton_clicked();
 
 private:
     Ui::EmulatorDisplay *ui;
+    Chip8Core emulator;
 };
 
 #endif // EMULATORDISPLAY_H
