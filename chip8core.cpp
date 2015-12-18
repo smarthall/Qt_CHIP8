@@ -177,12 +177,11 @@ bool Chip8Core::cycle() {
         res = V[x] + n;
 
         if (res > 0xFF) {
-            V[x] = res % 0xFF;
             V[CARRY_REGISTER] = 1;
         } else {
-            V[x] = res;
             V[CARRY_REGISTER] = 0;
         }
+        V[x] = V[x] + n;
         pc += 2;
         break;
 
