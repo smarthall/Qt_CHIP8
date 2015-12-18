@@ -23,8 +23,7 @@ private slots:
 
 private:
     Ui::EmulatorDisplay *ui;
-    EmulatorThread *emu_thread;
-    Chip8Core emulator;
+    EmulatorThread emulator;
 };
 
 #endif // EMULATORDISPLAY_H

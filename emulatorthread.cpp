@@ -2,13 +2,11 @@
 
 #include <QDebug>
 
-EmulatorThread::EmulatorThread(Chip8Core *emulator, QObject *parent)
+EmulatorThread::EmulatorThread(QObject *parent)
     : QThread(parent)
 {
     running = false;
     exit = false;
-
-    this->emulator = emulator;
 }
 
 EmulatorThread::~EmulatorThread() {
@@ -48,21 +46,36 @@ void EmulatorThread::copyDisplay(uint8_t *dest) {
     QMutexLocker locker(&running_mutex);
 
     // Copy display from paused emulator
-    emulator->copyDisplay(dest);
+    emulator.copyDisplay(dest);
+}
+
+void EmulatorThread::load(QFile &rom) {
+    QMutexLocker locker(&running_mutex);
+
+    if (!rom.open(QIODevice::ReadOnly))
+        return;
+
+    QByteArray program = rom.read(emulator.MAX_PROGRAM_SIZE);
+
+    emulator.load((uint8_t*)program.constData(), program.size());
+    emit displayUpdated();
 }
 
 void EmulatorThread::run() {
     forever {
         // Check what we are doing
         local_mutex.lock();
-        if (exit) return;
+        if (exit) {
+            local_mutex.unlock();
+            return;
+        }
         bool running = this->running;
         local_mutex.unlock();
 
         if (running) {
             // Running
             running_mutex.lock();
-            bool display_update = emulator->cycle();
+            bool display_update = emulator.cycle();
             running_mutex.unlock();
 
             // Update anyone who cares about the screen

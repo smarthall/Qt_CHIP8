@@ -60,8 +60,13 @@ void Chip8Core::clearScreen() {
 }
 
 bool Chip8Core::load(uint8_t *program, uint16_t size) {
+    // No point loading a new program into a running CPU
+    reset();
+
+    // Check if the program fits
     if (size > (MEMORY_SIZE - LOAD_ADDR)) return false;
 
+    // Copy in the program
     memcpy(memory + LOAD_ADDR, program, sizeof(uint8_t) * size);
 
     return true;
