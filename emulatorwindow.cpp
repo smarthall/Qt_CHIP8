@@ -26,7 +26,7 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
             &emulator, SLOT(keyDown(uint8_t)));
 
     // Load a program
-    QFile rom(":/ROMS/INVADERS");
+    QFile rom(":/ROMS/PONG2");
     emulator.load(rom);
 
     // Start it up
@@ -93,9 +93,9 @@ void EmulatorWindow::keyActionEvent(bool pressed, QKeyEvent *keyEvent) {
     }
 
     if (pressed) {
-        emit chip8KeyUp(i);
-    } else {
         emit chip8KeyDown(i);
+    } else {
+        emit chip8KeyUp(i);
     }
 }
 
