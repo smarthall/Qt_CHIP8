@@ -419,6 +419,11 @@ bool Chip8Core::cycle() {
 
             // FX1E: Adds VX to I.
         case 0x1E:
+            if (I + V[x] > 0xFFF) {
+                V[CARRY_REGISTER] = 1;
+            } else {
+                V[CARRY_REGISTER] = 0;
+            }
             I = I + V[x];
             pc += 2;
             break;
