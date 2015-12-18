@@ -16,13 +16,15 @@ SOURCES += main.cpp\
     emulatorscreenwidget.cpp \
     chip8core.cpp \
     emulatorthread.cpp \
-    emulatorwindow.cpp
+    emulatorwindow.cpp \
+    chip8keyboarddisplay.cpp
 
 HEADERS  += \
     emulatorscreenwidget.h \
     chip8core.h \
     emulatorthread.h \
-    emulatorwindow.h
+    emulatorwindow.h \
+    chip8keyboarddisplay.h
 
 FORMS    += emulatordisplay.ui
 
