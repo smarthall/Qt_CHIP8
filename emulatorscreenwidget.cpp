@@ -37,7 +37,7 @@ void EmulatorScreenWidget::paintEvent(QPaintEvent*) {
 void EmulatorScreenWidget::updateDisplay(uint8_t *display) {
     memcpy(this->display, display, sizeof(this->display));
 
-    this->repaint();
+    repaint();
 }
 
 unsigned int EmulatorScreenWidget::getChip8Pixel(unsigned int x, unsigned int y) {

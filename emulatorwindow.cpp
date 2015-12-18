@@ -19,14 +19,20 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
             this, SLOT(displayUpdated()),
             Qt::QueuedConnection);
 
-    // Connect the keyboard
+    // Connect the keyboard to the emulator
     connect(this, SIGNAL(chip8KeyUp(uint8_t)),
             &emulator, SLOT(keyUp(uint8_t)));
     connect(this, SIGNAL(chip8KeyDown(uint8_t)),
             &emulator, SLOT(keyDown(uint8_t)));
 
+    // Connect the keyboard to the GUI keys
+    connect(this, SIGNAL(chip8KeyUp(uint8_t)),
+            this->ui->keyboard, SLOT(keyUp(uint8_t)));
+    connect(this, SIGNAL(chip8KeyDown(uint8_t)),
+            this->ui->keyboard, SLOT(keyDown(uint8_t)));
+
     // Load a program
-    QFile rom(":/ROMS/PONG2");
+    QFile rom(":/ROMS/PONG");
     emulator.load(rom);
 
     // Start it up
