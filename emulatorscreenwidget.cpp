@@ -5,7 +5,6 @@
 #include <QPainter>
 
 EmulatorScreenWidget::EmulatorScreenWidget(QWidget *parent) : QWidget(parent) {
-    qDebug() << "Widget created";
 }
 
 void EmulatorScreenWidget::paintEvent(QPaintEvent*) {
@@ -32,7 +31,6 @@ void EmulatorScreenWidget::paintEvent(QPaintEvent*) {
     }
 
     painter.drawImage(0, 0, image);
-    qDebug() << "Drew frame in :" << time.elapsed() << "ms.";
     delete[] pixels;
 }
 

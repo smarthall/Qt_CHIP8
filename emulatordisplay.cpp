@@ -29,8 +29,8 @@ EmulatorDisplay::EmulatorDisplay(QWidget *parent) :
 
     // Start the emulator thread
     emu_thread = new EmulatorThread(&emulator);
-    connect(emu_thread, SIGNAL(EmulatorThread::displayUpdated),
-            ui->display, SLOT(EmulatorDisplay::displayUpdated),
+    connect(emu_thread, SIGNAL(displayUpdated()),
+            this, SLOT(displayUpdated()),
             Qt::QueuedConnection);
     emu_thread->start();
 }

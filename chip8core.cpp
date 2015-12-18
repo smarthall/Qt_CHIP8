@@ -80,7 +80,6 @@ void Chip8Core::copyDisplay(uint8_t *dest) {
 }
 
 bool Chip8Core::cycle() {
-    std::cout << "Cycle!";
     bool gfx_update = false;
 
     uint8_t x, y;

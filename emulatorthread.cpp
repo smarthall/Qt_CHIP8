@@ -1,5 +1,7 @@
 #include "emulatorthread.h"
 
+#include <QDebug>
+
 EmulatorThread::EmulatorThread(Chip8Core *emulator, QObject *parent)
     : QThread(parent)
 {
@@ -21,20 +23,21 @@ EmulatorThread::~EmulatorThread() {
 }
 
 void EmulatorThread::start() {
+    QMutexLocker locker(&local_mutex);
+
+    // Start thread if we arent running
     if (!isRunning()) QThread::start();
 
     // Tell thread to start
-    local_mutex.lock();
     running = true;
     condition.wakeOne();
-    local_mutex.unlock();
 }
 
 void EmulatorThread::stop() {
+    QMutexLocker locker(&local_mutex);
+
     // Tell thread to stop cycling the emulator
-    local_mutex.lock();
     running = false;
-    local_mutex.unlock();
 
     // Block until the emulator stops
     running_mutex.lock();
@@ -42,10 +45,10 @@ void EmulatorThread::stop() {
 }
 
 void EmulatorThread::copyDisplay(uint8_t *dest) {
+    QMutexLocker locker(&running_mutex);
+
     // Copy display from paused emulator
-    running_mutex.lock();
     emulator->copyDisplay(dest);
-    running_mutex.unlock();
 }
 
 void EmulatorThread::run() {
@@ -68,12 +71,16 @@ void EmulatorThread::run() {
             }
 
             // Wait for the next cycle
+            local_mutex.lock();
             condition.wait(&local_mutex, 1000UL/speed);
+            local_mutex.unlock();
         } else {
             // Not running
 
             // Wait till someone restarts us
+            local_mutex.lock();
             condition.wait(&local_mutex);
+            local_mutex.unlock();
         }
     }
 }
