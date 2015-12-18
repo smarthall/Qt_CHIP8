@@ -61,6 +61,20 @@ void EmulatorThread::load(QFile &rom) {
     emit displayUpdated();
 }
 
+void EmulatorThread::keyUp(uint8_t key_id)
+{
+    QMutexLocker locker(&running_mutex);
+
+    emulator.keyUp(key_id);
+}
+
+void EmulatorThread::keyDown(uint8_t key_id)
+{
+    QMutexLocker locker(&running_mutex);
+
+    emulator.keyDown(key_id);
+}
+
 void EmulatorThread::run() {
     forever {
         // Check what we are doing

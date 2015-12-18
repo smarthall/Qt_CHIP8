@@ -99,7 +99,7 @@ bool Chip8Core::cycle() {
     case 0x0000:
         switch (opcode) {
         // 00E0: Clears the screen.
-        case 0x0000:
+        case 0x00E0:
             clearScreen();
             break;
 

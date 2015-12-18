@@ -22,15 +22,18 @@ public:
 
     void copyDisplay(uint8_t *dest);
     void load(QFile &file);
-
 protected:
     void run() Q_DECL_OVERRIDE;
 
 signals:
     void displayUpdated();
 
+public slots:
+    void keyUp(uint8_t key_id);
+    void keyDown(uint8_t key_id);
+
 private:
-    static const int speed = 60;
+    static const int speed = 120;
 
     QMutex local_mutex;
     QMutex running_mutex;
