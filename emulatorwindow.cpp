@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QKeyEvent>
+#include <QDirIterator>
+#include <QStringList>
 
 EmulatorWindow::EmulatorWindow(QWidget *parent) :
     QWidget(parent),
@@ -14,7 +16,7 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
     // Disable resizing the window
     this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
 
-    // Connect the display
+    // Connect the display to the emulator
     connect(&emulator, SIGNAL(displayUpdated()),
             this, SLOT(displayUpdated()),
             Qt::QueuedConnection);
@@ -31,12 +33,15 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
     connect(this, SIGNAL(chip8KeyDown(uint8_t)),
             this->ui->keyboard, SLOT(keyDown(uint8_t)));
 
-    // Load a program
-    QFile rom(":/ROMS/PONG");
-    emulator.load(rom);
+    // Load the list of included ROMS
+    QDirIterator it(":/ROMS/", QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        it.next();
+        ui->romSelector->addItem(it.fileName(), it.filePath());
+    }
 
-    // Start it up
-    emulator.start();
+    // Initialise the display
+    displayUpdated();
 }
 
 EmulatorWindow::~EmulatorWindow()
@@ -117,4 +122,21 @@ void EmulatorWindow::displayUpdated() {
     uint8_t display[64 * 32];
     emulator.copyDisplay(display);
     ui->display->updateDisplay(display);
+}
+
+void EmulatorWindow::on_loadButton_clicked()
+{
+    // Find the path to the ROM
+    int selected = ui->romSelector->currentIndex();
+    QString chosen = ui->romSelector->itemData(selected).toString();
+
+    // Stop the emulator
+    emulator.stop();
+
+    // Load a ROM
+    QFile rom(chosen);
+    emulator.load(rom);
+
+    // Start it up
+    emulator.start();
 }

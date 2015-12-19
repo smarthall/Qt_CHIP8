@@ -28,6 +28,8 @@ signals:
 private slots:
     void displayUpdated();
 
+    void on_loadButton_clicked();
+
 private:
     Ui::EmulatorDisplay *ui;
     EmulatorThread emulator;
