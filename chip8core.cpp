@@ -326,7 +326,9 @@ bool Chip8Core::cycle() {
                 // Move 0b1000 0000 across for each column
                 if((pixel & (0x80 >> xline)) != 0)
                 {
-                    uint16_t index = (V[x] + xline + ((V[y] + yline) * SCREEN_WIDTH));
+                    uint8_t new_x = (V[x] + xline) % SCREEN_WIDTH;
+                    uint8_t new_y = (V[y] + yline) % SCREEN_HEIGHT;
+                    uint16_t index = (new_x + (new_y * SCREEN_WIDTH));
                     if(gfx[index] == 1) {
                         V[CARRY_REGISTER] = 1;
                         gfx[index] = 0;
