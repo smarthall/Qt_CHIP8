@@ -6,7 +6,6 @@
 #include <QKeyEvent>
 #include <QDirIterator>
 #include <QStringList>
-#include <QSound>
 
 EmulatorWindow::EmulatorWindow(QWidget *parent) :
     QWidget(parent),
@@ -16,6 +15,9 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
 
     // Disable resizing the window
     this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
+
+    // Load the Beep sound
+    beep = new QSound(":/Sounds/beep.wav");
 
     // Connect the display to the emulator
     connect(&emulator, SIGNAL(displayUpdated()),
@@ -52,6 +54,7 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
 
 EmulatorWindow::~EmulatorWindow()
 {
+    delete beep;
     delete ui;
 }
 
@@ -149,5 +152,5 @@ void EmulatorWindow::on_loadButton_clicked()
 
 void EmulatorWindow::playSound()
 {
-    QSound::play(":/Sounds/beep.wav");
+    beep->play();
 }

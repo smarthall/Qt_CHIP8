@@ -2,6 +2,7 @@
 #define EMULATORDISPLAY_H
 
 #include <QWidget>
+#include <QSound>
 #include <inttypes.h>
 
 #include "chip8core.h"
@@ -33,6 +34,7 @@ private slots:
 private:
     Ui::EmulatorDisplay *ui;
     EmulatorThread emulator;
+    QSound *beep;
     void keyActionEvent(bool pressed, QKeyEvent *keyEvent);
     void passthroughKey(bool pressed, QKeyEvent *keyEvent);
 };
