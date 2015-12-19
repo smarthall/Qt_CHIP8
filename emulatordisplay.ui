@@ -28,6 +28,9 @@
      <height>128</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>BlankCursor</cursorShape>
+   </property>
   </widget>
   <widget class="Chip8KeyboardDisplay" name="keyboard" native="true">
    <property name="geometry">
