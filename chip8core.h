@@ -7,11 +7,17 @@ class Chip8Core
 {
 public:
     Chip8Core();
+
+    // Emulator controls
     void reset();
-    bool cycle();
+    void cycle();
     bool load(uint8_t *program, uint16_t size);
+
+    // Keyboard
     void keyDown(uint8_t key_id);
     void keyUp(uint8_t key_id);
+
+    //
     void copyDisplay(uint8_t *dest);
 
     // Public Constants
@@ -19,6 +25,9 @@ public:
     static const uint16_t MEMORY_SIZE = 4096;
     static const uint16_t MAX_PROGRAM_SIZE = MEMORY_SIZE - LOAD_ADDR;
 
+    // Accessors
+    bool getDisplayDirty();
+    bool getPlaySound();
 private:
     // Memory
     uint8_t memory[MEMORY_SIZE];
@@ -52,6 +61,10 @@ private:
     // Key inputs
     static const uint8_t KEY_COUNT = 16;
     uint8_t key[KEY_COUNT];
+
+    // Notes to the controlling app
+    bool display_dirty;
+    bool play_sound;
 };
 
 #endif // CHIP8CORE_H

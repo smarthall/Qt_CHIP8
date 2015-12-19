@@ -56,6 +56,10 @@ void Chip8Core::reset() {
     // Reset timers
     delay_timer = 0;
     sound_timer = 0;
+
+    // Clear notes
+    display_dirty = false;
+    play_sound = false;
 }
 
 void Chip8Core::clearScreen() {
@@ -83,11 +87,25 @@ void Chip8Core::keyUp(uint8_t key_id) {
     key[key_id] = 0;
 }
 
+bool Chip8Core::getDisplayDirty() {
+    return display_dirty;
+}
+
+bool Chip8Core::getPlaySound() {
+    bool sound = play_sound;
+
+    play_sound = false;
+
+    return sound;
+}
+
 void Chip8Core::copyDisplay(uint8_t *dest) {
+    display_dirty = false;
+
     memcpy(dest, gfx, sizeof(gfx));
 }
 
-bool Chip8Core::cycle() {
+void Chip8Core::cycle() {
     bool gfx_update = false;
 
     uint8_t x, y;
@@ -402,7 +420,7 @@ bool Chip8Core::cycle() {
                 pc += 2;
             } else {
                 // Dont advance counter/timers until key is pressed.
-                return false;
+                return;
             }
 
             break;
@@ -479,9 +497,9 @@ bool Chip8Core::cycle() {
     // Update timers
     if (delay_timer > 0) delay_timer--;
     if (sound_timer > 0) {
-        if (sound_timer == 1) std::cout << '\a';
+        play_sound = true;
         sound_timer--;
     }
 
-    return gfx_update;
+    display_dirty = gfx_update;
 }

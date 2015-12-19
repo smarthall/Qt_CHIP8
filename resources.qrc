@@ -23,5 +23,6 @@
         <file>ROMS/VBRIX</file>
         <file>ROMS/VERS</file>
         <file>ROMS/WIPEOFF</file>
+        <file>Sounds/beep.wav</file>
     </qresource>
 </RCC>

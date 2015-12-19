@@ -27,8 +27,8 @@ signals:
 
 private slots:
     void displayUpdated();
-
     void on_loadButton_clicked();
+    void playSound();
 
 private:
     Ui::EmulatorDisplay *ui;

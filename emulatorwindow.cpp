@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QDirIterator>
 #include <QStringList>
+#include <QSound>
 
 EmulatorWindow::EmulatorWindow(QWidget *parent) :
     QWidget(parent),
@@ -26,6 +27,11 @@ EmulatorWindow::EmulatorWindow(QWidget *parent) :
             &emulator, SLOT(keyUp(uint8_t)));
     connect(this, SIGNAL(chip8KeyDown(uint8_t)),
             &emulator, SLOT(keyDown(uint8_t)));
+
+    // Connect the sound player
+    connect(&emulator, SIGNAL(playSound()),
+            this, SLOT(playSound()),
+            Qt::QueuedConnection);
 
     // Connect the keyboard to the GUI keys
     connect(this, SIGNAL(chip8KeyUp(uint8_t)),
@@ -139,4 +145,9 @@ void EmulatorWindow::on_loadButton_clicked()
 
     // Start it up
     emulator.start();
+}
+
+void EmulatorWindow::playSound()
+{
+    QSound::play(":/Sounds/beep.wav");
 }

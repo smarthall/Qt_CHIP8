@@ -89,12 +89,18 @@ void EmulatorThread::run() {
         if (running) {
             // Running
             running_mutex.lock();
-            bool display_update = emulator.cycle();
+            emulator.cycle();
+            bool display_update = emulator.getDisplayDirty();
+            bool play_sound = emulator.getPlaySound();
             running_mutex.unlock();
 
             // Update anyone who cares about the screen
             if (display_update) {
                 emit displayUpdated();
+            }
+
+            if (play_sound) {
+                emit playSound();
             }
 
             // Wait for the next cycle

@@ -27,6 +27,7 @@ protected:
 
 signals:
     void displayUpdated();
+    void playSound();
 
 public slots:
     void keyUp(uint8_t key_id);
