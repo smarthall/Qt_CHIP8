@@ -152,5 +152,5 @@ void EmulatorWindow::on_loadButton_clicked()
 
 void EmulatorWindow::playSound()
 {
-    beep->play();
+    if (beep->isFinished()) beep->play();
 }
