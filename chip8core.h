@@ -17,7 +17,7 @@ public:
     void keyDown(uint8_t key_id);
     void keyUp(uint8_t key_id);
 
-    //
+    // For
     void copyDisplay(uint8_t *dest);
 
     // Public Constants
@@ -65,6 +65,24 @@ private:
     // Notes to the controlling app
     bool display_dirty;
     bool play_sound;
+
+    // Opcode functions
+    void opcode_misc_zero(uint16_t opcode);
+    void opcode_jmp(uint16_t opcode);
+    void opcode_call(uint16_t opcode);
+    void opcode_se(uint16_t opcode);
+    void opcode_sne(uint16_t opcode);
+    void opcode_se2(uint16_t opcode);
+    void opcode_ldn(uint16_t opcode);
+    void opcode_add(uint16_t opcode);
+    void opcode_registers(uint16_t opcode);
+    void opcode_skp(uint16_t opcode);
+    void opcode_ldi(uint16_t opcode);
+    void opcode_jmpi(uint16_t opcode);
+    void opcode_rnd(uint16_t opcode);
+    void opcode_draw(uint16_t opcode);
+    void opcode_key(uint16_t opcode);
+    void opcode_io(uint16_t opcode);
 };
 
 #endif // CHIP8CORE_H
